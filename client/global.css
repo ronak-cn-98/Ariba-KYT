@@ -1,0 +1,312 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ───────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    /* Background */
+    --background:   9 9 11;      /* #09090b – near black */
+    --surface:      17 17 20;    /* #111114 – card surface */
+    --surface-2:    22 22 26;    /* #16161a – elevated surface */
+
+    /* Borders */
+    --border:       255 255 255;  /* white at low opacity */
+    --border-op:    0.07;
+    --border-hover: 0.14;
+
+    /* Text */
+    --foreground:   244 244 245; /* zinc-100 */
+    --muted:        113 113 122; /* zinc-500 */
+    --muted-2:      161 161 170; /* zinc-400 */
+
+    /* Brand accent – used sparingly */
+    --primary:      6 182 212;   /* cyan-500 */
+    --primary-dim:  8 145 178;   /* cyan-600 */
+
+    /* Semantic */
+    --success:      34 197 94;
+    --warning:      234 179 8;
+    --danger:       239 68 68;
+
+    /* Radius */
+    --radius: 0.5rem;
+
+    /* Tailwind mappings */
+    --color-background:  rgb(var(--background));
+    --color-foreground:  rgb(var(--foreground));
+    --color-card:        rgb(var(--surface));
+    --color-primary:     rgb(var(--primary));
+    --color-muted-fg:    rgb(var(--muted));
+    --color-border:      rgba(var(--border) / var(--border-op));
+  }
+}
+
+/* ── Base reset ──────────────────────────────────────────────────────────── */
+@layer base {
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    color: rgb(var(--foreground));
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  ::selection {
+    background: rgba(var(--primary) / 0.2);
+    color: rgb(var(--foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(var(--primary) / 0.6);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes text-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 120% 50%;
+  }
+  100% {
+    background-position: -20% 50%;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes aurora {
+  0%   { transform: translate3d(-8%, 0, 0) scale(1); opacity: 0.38; }
+  50%  { transform: translate3d(8%, -4%, 0) scale(1.06); opacity: 0.62; }
+  100% { transform: translate3d(-8%, 0, 0) scale(1); opacity: 0.38; }
+}
+
+@keyframes sheen {
+  0%   { transform: translateX(-140%) skewX(-18deg); opacity: 0; }
+  20%  { opacity: 0.15; }
+  60%  { opacity: 0.32; }
+  100% { transform: translateX(240%) skewX(-18deg); opacity: 0; }
+}
+
+@keyframes flow-x {
+  0% { transform: translateX(-140%); opacity: 0; }
+  12% { opacity: 0.95; }
+  88% { opacity: 0.95; }
+  100% { transform: translateX(430%); opacity: 0; }
+}
+
+@keyframes signal-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,211,238,0.0), 0 0 0 0 rgba(34,211,238,0.0); transform: scale(1); }
+  40% { box-shadow: 0 0 0 10px rgba(34,211,238,0.0), 0 0 28px 0 rgba(34,211,238,0.22); transform: scale(1.03); }
+  55% { box-shadow: 0 0 0 14px rgba(34,211,238,0.08), 0 0 36px 0 rgba(34,211,238,0.1); }
+}
+
+@keyframes card-breathe {
+  0%, 100% { transform: translateY(0); border-color: rgba(255,255,255,0.08); }
+  50% { transform: translateY(-3px); border-color: rgba(255,255,255,0.14); }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-fade-in {
+    animation: fade-in 0.4s ease both;
+  }
+  .animate-text-reveal {
+    animation: text-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-text-shimmer {
+    background-size: 200% 100%;
+    animation: text-shimmer 5.5s linear infinite;
+  }
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  .animate-aurora {
+    animation: aurora 12s ease-in-out infinite;
+  }
+  .animate-sheen {
+    animation: sheen 5.5s ease-in-out infinite;
+  }
+  .animate-flow-x {
+    animation: flow-x 5.8s linear infinite;
+  }
+  .animate-signal-pulse {
+    animation: signal-pulse 5.8s ease-in-out infinite;
+  }
+  .animate-card-breathe {
+    animation: card-breathe 5.8s ease-in-out infinite;
+  }
+  /* Legacy alias kept for backward compat */
+  .animate-fade-in-up { animation: fade-up 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+}
+
+/* ── Component layer ─────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Card */
+  .card {
+    background: rgb(var(--surface));
+    border: 1px solid rgba(var(--border) / var(--border-op));
+    border-radius: var(--radius);
+  }
+  .card:hover {
+    border-color: rgba(var(--border) / var(--border-hover));
+  }
+
+  /* Mono label */
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgb(var(--muted));
+  }
+
+  /* Pill badge – neutral */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgb(var(--muted-2));
+    white-space: nowrap;
+  }
+
+  /* Pill badge – accent */
+  .badge-accent {
+    @apply badge;
+    background: rgba(var(--primary) / 0.1);
+    border-color: rgba(var(--primary) / 0.2);
+    color: rgb(var(--primary));
+  }
+
+  /* Tech tag (monospace) */
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgb(var(--muted-2));
+    white-space: nowrap;
+  }
+
+  /* Divider */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(var(--border) / var(--border-op));
+  }
+
+  /* Button – primary */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    background: rgb(var(--primary));
+    color: #09090b;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-primary:active { transform: scale(0.98); }
+
+  /* Button – secondary */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    background: transparent;
+    color: rgb(var(--foreground));
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid rgba(var(--border) / var(--border-hover));
+    transition: background 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
+  }
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.18);
+  }
+
+  /* Input */
+  .input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(var(--border) / var(--border-op));
+    border-radius: var(--radius);
+    color: rgb(var(--foreground));
+    font-size: 13px;
+    transition: border-color 0.15s ease;
+  }
+  .input:focus {
+    outline: none;
+    border-color: rgba(var(--primary) / 0.5);
+  }
+  .input::placeholder { color: rgb(var(--muted)); }
+
+  /* Transition preset */
+  .transition-base {
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+  }
+}
