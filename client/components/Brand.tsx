@@ -1,3 +1,5 @@
+import { getAssetPath } from "@/lib/getAssetPath";
+
 interface LogoProps {
   className?: string;
 }
@@ -5,7 +7,7 @@ interface LogoProps {
 export function CloudNexusLogo({ className = "h-8 w-8" }: LogoProps) {
   return (
     <img
-      src="/assets/cloudnexus-logo.png"
+      src={getAssetPath("/assets/cloudnexus-logo.png")}
       alt="CloudNexus logo"
       className={className}
     />
